@@ -1,0 +1,120 @@
+<?php
+// @codingStandardsIgnoreFile
+?>
+<?php
+$enable_module = $block->getConfig('enabled');
+if ($enable_module != 1)
+    return;
+$title = $block->getConfig('title');
+$content = $block->getConfig('content');
+$width = $block->getConfig('width');
+if (!$width)
+    $width = 500;
+$height = $block->getConfig('height');
+if (!$height)
+    $height = 400;
+$speed = $block->getConfig('speed');
+$top = $block->getConfig('margin_top');
+$timeout = $block->getConfig('cookie_timeout');
+$mediaUrl = $block->getMediaUrl();
+$background = null;
+if ($block->getConfig('background')) {
+    $background = $mediaUrl . 'logo/' . $block->getConfig('background');
+}
+?>
+<div id="newsletter_pop_up" class="pt_newsletterpopup" style ='width:<?php echo $width; ?>px ; height:<?php echo $height; ?>px ;display:none;' >
+    <span class="b-close"><span>X</span></span>
+    <div class="left-column">
+        <div class="logo">
+            <img src="<?php echo $background; ?>" />
+        </div>
+    </div>
+    <div class="right-column">
+        <div class="content newsletter-custom">
+            <form class="form subscribe"
+                  novalidate
+                  action="<?php /* @escapeNotVerified */ echo $block->getFormActionUrl() ?>"
+                  method="post"
+                  data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+                  id="newsletter-validate-detail1">
+                <div class="title"><strong><?php echo $title; ?></strong></div>
+                <label class="label" for="newsletter1"><span><?php echo $content; ?></span></label>
+                <div class="field newsletter">
+                    <div class="control">
+                        <input name="email" type="email" id="newsletter1"
+                               placeholder="<?php /* @escapeNotVerified */ echo __('Enter address') ?>"
+                               data-validate="{required:true, 'validate-email':true}"/>
+
+                    </div>
+                    <div class="actions">
+                        <button class="action subscribe primary" title="<?php /* @escapeNotVerified */ echo __('Subscribe') ?>" type="submit">
+                            <span><?php /* @escapeNotVerified */ echo __('Subscribe') ?></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="subscribe-bottom">
+                    <input type="checkbox" id="newsletter_popup_dont_show_again1">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script type ="text/javascript">
+    require(["jquery", "mage/cookies", "mage/calendar"], function ($) {
+        function setCookie(name, value, days)
+        {
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+            } else
+                var expires = "";
+            document.cookie = name + "=" + value + expires + "; path=/";
+        }
+        function getCookie(name)
+        {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ')
+                    c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0)
+                    return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+        $("#subscriber_dateofbirth").calendar({
+            showsTime: false,
+            changeYear: true,
+            buttonText: "<?php echo __('Select Date') ?>",
+            dateFormat: 'yy-mm-dd',
+            defaultDate: '1960-01-01',
+            yearRange: '1960:2010'
+        });
+        $('#newsletter_pop_up').hide();
+        if (!$.mage.cookies.get("newsletter_pop_up")) {
+            $.mage.cookies.set('newsletter_pop_up', 'true');
+            $('#newsletter_pop_up').bPopup({
+                position: ['auto', <?php
+if ($top != '')
+    echo $top;
+else
+    echo '120';
+?>],
+                speed: <?php
+if ($speed != '')
+    echo $speed;
+else
+    echo '450'
+    ?>,
+                transition: 'slideDown',
+                onOpen: function () {
+                },
+            });
+
+        }
+    });
+</script>
+
+

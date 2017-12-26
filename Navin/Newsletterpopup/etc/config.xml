@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © 2015 Magento. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <newsletterpopup>
+            <popup_group>
+                <enabled>1</enabled>
+                <title>NEWSLETTER</title>
+                <content>Subscribe to the lucian mailing list to receive updates on new arrivals, special offers and other discount information.</content>
+				<width>790</width>
+				<height>390</height>
+				<speed>600</speed> 
+				<cookie_timeout>1</cookie_timeout>  
+				<background></background> 
+            </popup_group>
+        </newsletterpopup>
+    </default>
+</config>
